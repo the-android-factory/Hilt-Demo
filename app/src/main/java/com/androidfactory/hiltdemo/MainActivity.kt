@@ -7,11 +7,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.androidfactory.hiltdemo.databinding.ActivityMainBinding
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    @Inject
+    lateinit var picassoUtil: PicassoUtil
 
     private val viewModel by lazy {
         ViewModelProvider(this)[MyViewModel::class.java]
@@ -27,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.imageUrlLiveData.observe(this) { imageUrl ->
-            Picasso.get().load(imageUrl).into(binding.imageView)
+            picassoUtil.loadImage(imageUrl, binding.imageView)
         }
     }
 }
